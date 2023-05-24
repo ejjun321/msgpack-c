@@ -25,7 +25,7 @@
 #if defined(unix) || defined(__unix) || defined(__APPLE__) || defined(__OpenBSD__)
 #include <sys/uio.h>
 #else
-struct iovec {
+struct iovecm {
     void  *iov_base;
     size_t iov_len;
 };
@@ -62,11 +62,11 @@ public:
             throw std::bad_alloc();
         }
 
-        size_t nfirst = (sizeof(iovec) < 72/2) ?
-            72 / sizeof(iovec) : 8;
+        size_t nfirst = (sizeof(iovecm) < 72/2) ?
+            72 / sizeof(iovecm) : 8;
 
-        iovec* array = static_cast<iovec*>(::malloc(
-            sizeof(iovec) * nfirst));
+        iovecm* array = static_cast<iovecm*>(::malloc(
+            sizeof(iovecm) * nfirst));
         if(!array) {
             throw std::bad_alloc();
         }
@@ -120,8 +120,8 @@ public:
             const size_t nused = m_tail - m_array;
             const size_t nnext = nused * 2;
 
-            iovec* nvec = static_cast<iovec*>(::realloc(
-                m_array, sizeof(iovec)*nnext));
+            iovecm* nvec = static_cast<iovecm*>(::realloc(
+                m_array, sizeof(iovecm)*nnext));
             if(!nvec) {
                 throw std::bad_alloc();
             }
@@ -177,7 +177,7 @@ public:
         }
     }
 
-    const struct iovec* vector() const
+    const struct iovecm* vector() const
     {
         return m_array;
     }
@@ -216,8 +216,8 @@ public:
                 nnext = tmp_nnext;
             }
 
-            iovec* nvec = static_cast<iovec*>(::realloc(
-                to->m_array, sizeof(iovec)*nnext));
+            iovecm* nvec = static_cast<iovecm*>(::realloc(
+                to->m_array, sizeof(iovecm)*nnext));
             if(!nvec) {
                 ::free(empty);
                 throw std::bad_alloc();
@@ -228,7 +228,7 @@ public:
             to->m_tail  = nvec + tosize;
         }
 
-        std::memcpy(to->m_tail, m_array, sizeof(iovec)*nused);
+        std::memcpy(to->m_tail, m_array, sizeof(iovecm)*nused);
 
         to->m_tail += nused;
         m_tail = m_array;
@@ -284,9 +284,9 @@ private:
 #endif // defined(MSGPACK_USE_CPP03)
 
 private:
-    iovec* m_tail;
-    iovec* m_end;
-    iovec* m_array;
+    iovecm* m_tail;
+    iovecm* m_end;
+    iovecm* m_array;
 
     size_t m_ref_size;
     size_t m_chunk_size;

@@ -25,8 +25,8 @@ using namespace std;
             test_type val1 = v[i];                                      \
             msgpack::pack(vbuf, val1);                                  \
             msgpack::sbuffer sbuf;                                      \
-            const struct iovec* cur = vbuf.vector();                    \
-            const struct iovec* end = cur + vbuf.vector_size();         \
+            const struct iovecm* cur = vbuf.vector();                    \
+            const struct iovecm* end = cur + vbuf.vector_size();         \
             for(; cur != end; ++cur)                                    \
                 sbuf.write((const char*)cur->iov_base, cur->iov_len);   \
             msgpack::object_handle oh;                                  \
