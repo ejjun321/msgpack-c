@@ -1,4 +1,6 @@
-`msgpack` for C/C++
+Liz forked msgpack, forced reverted to commit 8792f42, and then changed all instances of iovec to iovecm to get rid of redefinition error of struct iovcec (conflicting between msgpack/vrebuffer.h and lwip/sockets.h) when incorporating msgpack as component for wESP32 project.  
+
+`msgpack` for C/C++  
 ===================
 
 Version 3.1.1 [![Build Status](https://travis-ci.org/msgpack/msgpack-c.svg?branch=master)](https://travis-ci.org/msgpack/msgpack-c) [![Build status](https://ci.appveyor.com/api/projects/status/8kstcgt79qj123mw/branch/master?svg=true)](https://ci.appveyor.com/project/redboltz/msgpack-c/branch/master)
